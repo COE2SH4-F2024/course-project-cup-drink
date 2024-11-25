@@ -84,6 +84,7 @@ void testInsertHead_1Element()
 
 	// Then check whether the head element is what we have inserted.
 	currentPos = thisList.getHeadElement();
+
 	actualCheck = samplePos.isPosEqual(&currentPos);
 
 	result &= assert_equal(expectedCheck, actualCheck);
