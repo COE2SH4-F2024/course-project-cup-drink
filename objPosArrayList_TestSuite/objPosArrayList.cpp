@@ -35,8 +35,6 @@ void objPosArrayList::insertHead(objPos thisPos)
         aList[i] = aList[i - 1];  
     }
     aList[0].setObjPos(thisPos);
-    std::cout<<aList[0].pos->x;
-    std::cout<<aList[0].pos->y;
     listSize++;
 }
 
@@ -74,7 +72,7 @@ objPos objPosArrayList::getHeadElement() const
 
 objPos objPosArrayList::getTailElement() const
 {
-    return aList[listSize];
+    return aList[listSize-1];
 }
 
 objPos objPosArrayList::getElement(int index) const

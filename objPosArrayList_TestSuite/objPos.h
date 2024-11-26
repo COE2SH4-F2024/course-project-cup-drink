@@ -22,7 +22,7 @@ class objPos
         
         ~objPos();
         objPos(const objPos &p);
-        objPos operator=(const objPos &m);
+        objPos& operator=(const objPos &m);
 
 
         void setObjPos(objPos o);        
