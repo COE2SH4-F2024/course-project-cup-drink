@@ -34,9 +34,13 @@ objPos::objPos(const objPos &p)
 
 objPos& objPos::operator=(const objPos &p)
 {
-    pos->x = p.pos->x;
-    pos->y = p.pos->y;
-    symbol = p.symbol;
+    if (this != &p)
+    {
+        pos->x = p.pos->x;
+        pos->y = p.pos->y;
+        symbol = p.symbol;
+    }
+    
     return *this;
 }
 
