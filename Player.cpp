@@ -6,6 +6,7 @@ Player::Player(GameMechs* thisGMRef)
     mainGameMechsRef = thisGMRef;
     myDir = STOP;
 
+
     // more actions to be included
 }
 
@@ -17,7 +18,7 @@ Player::~Player()
 
 objPos Player::getPlayerPos() const
 {
-    // return the reference to the playerPos arrray list
+    return; // Need to implement objpos for the player. 
 }
 
 void Player::updatePlayerDir()
