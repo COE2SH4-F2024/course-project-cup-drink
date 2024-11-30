@@ -81,7 +81,7 @@ void GameMechs::setInput(char this_input)
 
 void GameMechs::clearInput()
 {
-    input = NULL; //I assume assigning the null character would mean no input.
+    input = 0; //I assume assigning the null character would mean no input.
 }
 
 // More methods should be added here
