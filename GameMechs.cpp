@@ -72,11 +72,7 @@ void GameMechs::setLoseFlag()
 
 void GameMechs::setInput(char this_input)
 {
-    if(MacUILib_hasChar)
-    {
-        input = MacUILib_getChar(); //do we need to use this_input? , why can't we just do something like this??
-    }
-    
+    input = this_input; 
 }
 
 void GameMechs::clearInput()
