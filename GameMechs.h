@@ -44,5 +44,15 @@ class GameMechs
         
         // More methods should be added here
 };
+class Food{
+    private:
+        objPos foodPos;
+
+    public:
+        Food();
+        ~Food();
+        void generateFood(objPos blockOff);
+        objPos const getFoodPos();
+};
 
 #endif

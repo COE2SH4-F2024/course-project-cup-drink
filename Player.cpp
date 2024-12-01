@@ -6,6 +6,7 @@ Player::Player(GameMechs* thisGMRef)
     mainGameMechsRef = thisGMRef;
     myDir = STOP;
     playerPos.setObjPos(1,1,'*');
+
     
 
 
@@ -36,6 +37,7 @@ void Player::updatePlayerDir()
             // Add more key processing here
             // Add more key processing here
             // Add more key processing here    
+            
             case 'w':  // exit
                 if (myDir!=UP&&myDir!=DOWN)
                 {
@@ -76,15 +78,15 @@ void Player::movePlayer()
     {
         playerPos.pos->y--;
     }
-    if(myDir == LEFT)
+    else if(myDir == LEFT)
     {
        playerPos.pos->x--;  
     }
-    if(myDir == RIGHT)
+    else if(myDir == RIGHT)
     {
         playerPos.pos->x++;
     }
-    if(myDir == DOWN)
+    else if(myDir == DOWN)
     {
         playerPos.pos->y++;
     }
@@ -92,19 +94,22 @@ void Player::movePlayer()
     {
         playerPos.pos->x = 1;
     }
-    if (getPlayerPos().pos->y == mainGameMechsRef->getBoardSizeY()-1)
+    else if (getPlayerPos().pos->y == mainGameMechsRef->getBoardSizeY()-1)
     {
         playerPos.pos->y = 1;
     }
-    if (getPlayerPos().pos->x == 0)
+    else if (getPlayerPos().pos->x == 0)
     {
         playerPos.pos->x = (mainGameMechsRef->getBoardSizeX()-2);
     }
-    if (getPlayerPos().pos->y == 0)
+    else if (getPlayerPos().pos->y == 0)
     {
         playerPos.pos->y =  (mainGameMechsRef->getBoardSizeY()-2);
     }
 
 }
-
+int Player::getdir()
+{
+    return int(myDir);
+}
 // More methods to be added

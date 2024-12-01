@@ -9,7 +9,7 @@ using namespace std;
 #define DELAY_CONST 100000
 GameMechs* mech;
 Player* snake;
-
+Food* apple;
 bool exitFlag;
 
 void Initialize(void);
@@ -25,13 +25,13 @@ int main(void)
 {
 
     Initialize();
-
-    while(exitFlag == false)  
+    while(mech->getExitFlagStatus() == false)  
     {
         GetInput();
         RunLogic();
         DrawScreen();
         LoopDelay();
+        
     }
 
     CleanUp();
@@ -47,24 +47,33 @@ void Initialize(void)
 
     exitFlag = false;
     snake = new Player(mech); 
+    apple = new Food();
+    apple->generateFood(snake->getPlayerPos());
     
 }
 
 void GetInput(void)
 {
-    if(MacUILib_hasChar)
+    
+    if(MacUILib_hasChar())
+    {
         mech->setInput(MacUILib_getChar());
+        if (MacUILib_getChar()=='p'){
+            apple->generateFood(snake->getPlayerPos());
+        }
+    }
 }
 
 void RunLogic(void)
 {
-    
+    snake->updatePlayerDir();
+    snake->movePlayer();
 }
 
 void DrawScreen(void)
 {
-    printf("%d %d",snake->getPlayerPos().pos->x,snake->getPlayerPos().pos->y );
     MacUILib_clearScreen();
+    printf("%d %d %d\n",snake->getPlayerPos().pos->x,snake->getPlayerPos().pos->y,snake->getdir() );
     for(int i =0; i< mech->getBoardSizeY();i++)
     {
         for(int j = 0; j< mech->getBoardSizeX() ; j++)
@@ -73,9 +82,13 @@ void DrawScreen(void)
             {
                 MacUILib_printf("#");
             }
-            else if(i == snake->getPlayerPos().pos->x && j == snake->getPlayerPos().pos->y)
+            else if(j == snake->getPlayerPos().pos->x && i == snake->getPlayerPos().pos->y)
             {
                 MacUILib_printf("%c",snake->getPlayerPos().symbol);
+            }
+            else if(j == apple->getFoodPos().pos->x && i == apple->getFoodPos().pos->y)
+            {
+                MacUILib_printf("%c",apple->getFoodPos().symbol);
             }
             else
             {
@@ -95,9 +108,10 @@ void LoopDelay(void)
 
 void CleanUp(void)
 {
-    MacUILib_clearScreen();    
+    cout<<"game ended"; 
 
     MacUILib_uninit();
     delete mech;
     delete snake;
+    delete apple;
 }
