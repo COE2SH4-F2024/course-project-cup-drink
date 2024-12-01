@@ -49,7 +49,7 @@ void Initialize(void)
     exitFlag = false;
     snake = new Player(mech); 
     apple = new Food();
-    apple->generateFood(snake->getPlayerPos());
+    apple->generateFood(snake->getPlayerPos()->getHeadElement());
     
 }
 
@@ -71,7 +71,28 @@ void RunLogic(void)
 void DrawScreen(void)
 {
     MacUILib_clearScreen();
-    printf("%d %d %d\n",snake->getPlayerPos().pos->x,snake->getPlayerPos().pos->y,snake->getdir() );
+    char board[mech->getBoardSizeY()][mech->getBoardSizeX()];
+    for(int i =0; i< mech->getBoardSizeY();i++)
+    {
+        for(int j = 0; j< mech->getBoardSizeX() ; j++)
+        {
+            if(i == 0 || j == 0 || i == (mech->getBoardSizeY()-1)|| j == (mech->getBoardSizeX()-1))
+            {
+                board[i][j]='#';
+            }
+            else{
+                board[i][j]=' ';
+            }
+        }
+    }
+    int size=snake->getPlayerPos()->getSize();
+    for(int i =0; i<size;i++)
+    {
+        board[snake->getPlayerPos()->getElement(i).pos->y][snake->getPlayerPos()->getElement(i).pos->x]=snake->getPlayerPos()->getElement(i).symbol;
+    }
+    board[apple->getFoodPos().pos->y][apple->getFoodPos().pos->x] = apple->getFoodPos().getSymbol();
+
+    /*printf("%d %d %d\n",snake->getPlayerPos().pos->x,snake->getPlayerPos().pos->y,snake->getdir() );
     for(int i =0; i< mech->getBoardSizeY();i++)
     {
         for(int j = 0; j< mech->getBoardSizeX() ; j++)
@@ -95,7 +116,15 @@ void DrawScreen(void)
 
         }
         MacUILib_printf("\n");
-    }    
+    }*/
+    for(int i =0; i< mech->getBoardSizeY();i++)
+    {
+        for(int j = 0; j< mech->getBoardSizeX() ; j++)
+        {
+            cout<<board[i][j];
+        }
+        cout<<"\n";
+    }
 }
 
 void LoopDelay(void)

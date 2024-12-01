@@ -15,6 +15,8 @@ Food::~Food()
 void Food::generateFood(objPos blockOff)
 {
     do{
+        //the modulo parameter is hard coded as we have no way of refrencing the game mechanics with the UML described Food class as it
+        //an improvement would be including a game mechanics refrence pointer within the Food class like in the Player class
         foodPos.setObjPos(1+rand()%28,1+rand()%13,foodPos.symbol);
     }
     while(foodPos.isPosEqual(&blockOff));
