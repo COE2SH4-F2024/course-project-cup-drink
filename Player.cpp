@@ -1,10 +1,10 @@
 #include "Player.h"
 
-
-Player::Player(GameMechs* thisGMRef)
+Player::Player(GameMechs* thisGMRef, Food* thisFoodRef)
 {
     mainGameMechsRef = thisGMRef;
     myDir = STOP;
+    foodRef = thisFoodRef;
     playerPosList = new objPosArrayList();
     playerPosList->insertHead(objPos(1,1,'*'));
     playerPosList->insertHead(objPos(1,1,'*'));
@@ -119,30 +119,28 @@ void Player::movePlayer()
         }
         playerPosList->insertHead(objPos(temp));
     }
-    if (playerPosList->getHeadElement().pos->x == mainGameMechsRef->getBoardSizeX()-1)
-    {
-        playerPosList->getHeadElement().pos->x = 1;
-    }
-    else if (playerPosList->getHeadElement().pos->y == mainGameMechsRef->getBoardSizeY()-1)
-    {
-        playerPosList->getHeadElement().pos->y = 1;
-    }
-    else if (playerPosList->getHeadElement().pos->x == 0)
-    {
-        playerPosList->getHeadElement().pos->x = (mainGameMechsRef->getBoardSizeX()-2);
-    }
-    else if (playerPosList->getHeadElement().pos->y == 0)
-    {
-        playerPosList->getHeadElement().pos->y =  (mainGameMechsRef->getBoardSizeY()-2);
-    }
     if (myDir!=STOP)
     {
-        playerPosList->removeTail();
+        if (checkFoodConsumption())
+        {
+            foodRef->generateFood(playerPosList->getHeadElement());
+        }
+        else
+        {
+            playerPosList->removeTail();
+        }
+        
     }
     
 }
 int Player::getdir()
 {
     return int(myDir);
+}
+bool Player::checkFoodConsumption()
+{
+    objPos tempfood=(foodRef->getFoodPos());
+    bool result =playerPosList->getHeadElement().isPosEqual(&(tempfood));
+    return result;
 }
 // More methods to be added

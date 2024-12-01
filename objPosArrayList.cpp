@@ -55,7 +55,6 @@ void objPosArrayList::removeHead()
         std::cout << "[WARNING] List is Empty, No Removal Allowed" << std::endl;
         return;
     }
-    delete &(aList[0]);
     for(int i = 0; i < listSize - 1; i++)   
         aList[i] = aList[i + 1]; 
 
@@ -64,7 +63,7 @@ void objPosArrayList::removeHead()
 
 void objPosArrayList::removeTail()
 {
-    delete &(aList[listSize]);
+
     listSize--;
 }
 

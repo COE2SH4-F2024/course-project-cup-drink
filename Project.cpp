@@ -47,8 +47,9 @@ void Initialize(void)
     mech = new GameMechs();
 
     exitFlag = false;
-    snake = new Player(mech); 
+
     apple = new Food();
+        snake = new Player(mech,apple); 
     apple->generateFood(snake->getPlayerPos()->getHeadElement());
     
 }
@@ -71,6 +72,10 @@ void RunLogic(void)
 void DrawScreen(void)
 {
     MacUILib_clearScreen();
+    for(int i =0; i<10;i++)
+    {
+        std::cout<<"index: "<<i<<" x: "<<snake->getPlayerPos()->getElement(i).pos->x<<" y: "<<snake->getPlayerPos()->getElement(i).pos->y<<"\n";
+    }
     char board[mech->getBoardSizeY()][mech->getBoardSizeX()];
     for(int i =0; i< mech->getBoardSizeY();i++)
     {
@@ -117,6 +122,8 @@ void DrawScreen(void)
         }
         MacUILib_printf("\n");
     }*/
+   
+    
     for(int i =0; i< mech->getBoardSizeY();i++)
     {
         for(int j = 0; j< mech->getBoardSizeX() ; j++)
