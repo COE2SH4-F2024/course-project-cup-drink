@@ -139,6 +139,7 @@ void CleanUp(void)
 
     MacUILib_uninit();
     delete mech;
+    snake->~Player();
     delete snake;
     delete apple;
 }
