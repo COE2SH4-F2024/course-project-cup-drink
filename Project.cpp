@@ -3,6 +3,7 @@
 #include "objPos.h"
 #include "GameMechs.h" //added by Kerolos
 #include "Player.h" //added by Kerolos
+#include "Food.h"
 
 using namespace std;
 
@@ -58,9 +59,6 @@ void GetInput(void)
     if(MacUILib_hasChar())
     {
         mech->setInput(MacUILib_getChar());
-        if (MacUILib_getChar()=='p'){
-            apple->generateFood(snake->getPlayerPos());
-        }
     }
 }
 
