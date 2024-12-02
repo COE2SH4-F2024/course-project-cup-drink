@@ -5,6 +5,7 @@ GameMechs::GameMechs()
 {
     boardSizeX = 30;
     boardSizeY = 15;
+    score=0;
 }
 
 GameMechs::GameMechs(int boardX, int boardY)
@@ -15,6 +16,7 @@ GameMechs::GameMechs(int boardX, int boardY)
     }
     boardSizeX = boardX;
     boardSizeY = boardY;
+    score=0;
 }
 
 // do you need a destructor?

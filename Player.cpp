@@ -6,9 +6,11 @@ Player::Player(GameMechs* thisGMRef, Food* thisFoodRef)
     myDir = STOP;
     foodRef = thisFoodRef;
     playerPosList = new objPosArrayList();
-    playerPosList->insertHead(objPos(1,1,'*'));
-    playerPosList->insertHead(objPos(1,1,'*'));
-    playerPosList->insertHead(objPos(1,1,'*'));
+    playerPosList->insertHead(objPos(1,2,'*'));
+    playerPosList->insertHead(objPos(1,3,'*'));
+    playerPosList->insertHead(objPos(1,4,'*'));
+
+    
 
     
 
@@ -20,7 +22,7 @@ Player::Player(GameMechs* thisGMRef, Food* thisFoodRef)
 Player::~Player()
 {
     playerPosList->~objPosArrayList();
-    delete[] playerPosList;
+    delete playerPosList;
     // delete any heap members here
 }
 
@@ -121,9 +123,15 @@ void Player::movePlayer()
     }
     if (myDir!=STOP)
     {
+        if (checkSelfCollision())
+        {
+            mainGameMechsRef->setExitTrue();
+            mainGameMechsRef->setLoseFlag();
+        }
         if (checkFoodConsumption())
         {
-            foodRef->generateFood(playerPosList->getHeadElement());
+            foodRef->generateFood(playerPosList);
+            mainGameMechsRef->incrementScore();
         }
         else
         {
@@ -143,4 +151,23 @@ bool Player::checkFoodConsumption()
     bool result =playerPosList->getHeadElement().isPosEqual(&(tempfood));
     return result;
 }
+bool Player::checkSelfCollision()
+{
+    objPos temp;
+    objPos head = playerPosList->getHeadElement();
+    bool collide = false; 
+    collide=0;
+    //the modulo parameter is hard coded as we have no way of refrencing the game mechanics with the UML described Food class as it
+    //an improvement would be including a game mechanics refrence pointer within the Food class like in the Player class
+    for (int i = 1 ; i < playerPosList->getSize(); i++)
+    {
+        temp = playerPosList->getElement(i);
+        if (head.isPosEqual(&(temp)))
+        {
+            collide=true;
+        }
+    }
+    return collide;
+}
+
 // More methods to be added

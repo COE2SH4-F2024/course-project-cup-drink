@@ -11,9 +11,9 @@
 
 objPosArrayList::objPosArrayList()
 {
-    aList = new objPos[defaultSize];
+    aList = new objPos[400];
     listSize=0;
-    arrayCapacity=defaultSize;
+    arrayCapacity=400;
 }
 
 objPosArrayList::~objPosArrayList()

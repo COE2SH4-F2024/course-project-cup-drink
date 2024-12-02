@@ -49,8 +49,8 @@ void Initialize(void)
     exitFlag = false;
 
     apple = new Food();
-        snake = new Player(mech,apple); 
-    apple->generateFood(snake->getPlayerPos()->getHeadElement());
+    snake = new Player(mech,apple); 
+    apple->generateFood(snake->getPlayerPos());
     
 }
 
@@ -72,9 +72,9 @@ void RunLogic(void)
 void DrawScreen(void)
 {
     MacUILib_clearScreen();
-    for(int i =0; i<10;i++)
+    for(int i =0; i<snake->getPlayerPos()->getSize();i++)
     {
-        std::cout<<"index: "<<i<<" x: "<<snake->getPlayerPos()->getElement(i).pos->x<<" y: "<<snake->getPlayerPos()->getElement(i).pos->y<<"\n";
+       std::cout<<"index: "<<i<<" x: "<<snake->getPlayerPos()->getElement(i).pos->x<<" y: "<<snake->getPlayerPos()->getElement(i).pos->y<<"\n";
     }
     char board[mech->getBoardSizeY()][mech->getBoardSizeX()];
     for(int i =0; i< mech->getBoardSizeY();i++)
@@ -132,6 +132,7 @@ void DrawScreen(void)
         }
         cout<<"\n";
     }
+    cout<<"Score: "<<mech->getScore();
 }
 
 void LoopDelay(void)
@@ -142,8 +143,11 @@ void LoopDelay(void)
 
 void CleanUp(void)
 {
-    cout<<"game ended"; 
-
+    cout<<"\ngame ended"; 
+    if (mech->getLoseFlagStatus())
+    {
+        cout<<"\nYou Lost!"; 
+    }
     MacUILib_uninit();
     delete mech;
     snake->~Player();
