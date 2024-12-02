@@ -72,7 +72,7 @@ void RunLogic(void)
 void DrawScreen(void)
 {
     MacUILib_clearScreen();
-    std::cout<<"SNAKE GAME!!!"<<endl<<"The numbers are fruit, their numerical value determines the score and length you get"<<endl<<"Have fun!"<<endl;
+    std::cout<<"SNAKE GAME!!!"<<endl<<"The numbers are fruits, their numerical value determines the score and length you get"<<endl<<"You can wrap around the boarder! Have fun!"<<endl;
     
     for(int i =0; i<foods->getFoodPos()->getSize();i++)
     {
@@ -147,7 +147,7 @@ void LoopDelay(void)
 
 void CleanUp(void)
 {
-    cout<<"\ngame ended"; 
+    cout<<"\nGame Over!"; 
     if (mech->getLoseFlagStatus())
     {
         cout<<"\nYou Lost! You collided with yourself!"; 
