@@ -11,12 +11,14 @@ using namespace std;
 class Food
 {
     private:
-        objPos foodPos;
-
+        objPosArrayList* foodBucket;
+        //added this so the game size is fully customizable 
+        //(board size change will not break game))
+        GameMechs* gamemechptr;
     public:
-        Food();
+        Food(GameMechs* gamemechref);
         ~Food();
         void generateFood(objPosArrayList* blockOff);
-        objPos const getFoodPos();
+        objPosArrayList* const getFoodPos();
 };
 #endif

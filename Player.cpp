@@ -131,7 +131,6 @@ void Player::movePlayer()
         if (checkFoodConsumption())
         {
             foodRef->generateFood(playerPosList);
-            mainGameMechsRef->incrementScore();
         }
         else
         {
@@ -147,8 +146,24 @@ int Player::getdir()
 }
 bool Player::checkFoodConsumption()
 {
-    objPos tempfood=(foodRef->getFoodPos());
-    bool result =playerPosList->getHeadElement().isPosEqual(&(tempfood));
+    objPos tempfood;
+    objPos head = playerPosList->getHeadElement();
+    bool result;
+    for (int i = 0 ; i < foodRef->getFoodPos()->getSize(); i++)
+    {
+        tempfood = foodRef->getFoodPos()->getElement(i);
+        if (head.isPosEqual(&(tempfood)))
+        {
+            result=true;
+
+            for (int j=0;j<int(tempfood.getSymbol())-48;j++)
+            {
+                playerPosList->insertTail(playerPosList->getTailElement());
+                mainGameMechsRef->incrementScore();
+            }
+
+        }
+    }
     return result;
 }
 bool Player::checkSelfCollision()
@@ -156,7 +171,6 @@ bool Player::checkSelfCollision()
     objPos temp;
     objPos head = playerPosList->getHeadElement();
     bool collide = false; 
-    collide=0;
     //the modulo parameter is hard coded as we have no way of refrencing the game mechanics with the UML described Food class as it
     //an improvement would be including a game mechanics refrence pointer within the Food class like in the Player class
     for (int i = 1 ; i < playerPosList->getSize(); i++)

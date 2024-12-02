@@ -10,7 +10,7 @@ using namespace std;
 #define DELAY_CONST 100000
 GameMechs* mech;
 Player* snake;
-Food* apple;
+Food* foods;
 bool exitFlag;
 
 void Initialize(void);
@@ -48,9 +48,9 @@ void Initialize(void)
 
     exitFlag = false;
 
-    apple = new Food();
-    snake = new Player(mech,apple); 
-    apple->generateFood(snake->getPlayerPos());
+    foods = new Food(mech);
+    snake = new Player(mech,foods); 
+    foods->generateFood(snake->getPlayerPos());
     
 }
 
@@ -72,9 +72,11 @@ void RunLogic(void)
 void DrawScreen(void)
 {
     MacUILib_clearScreen();
-    for(int i =0; i<snake->getPlayerPos()->getSize();i++)
+    std::cout<<"SNAKE GAME!!!"<<endl<<"The numbers are fruit, their numerical value determines the score and length you get"<<endl<<"Have fun!"<<endl;
+    
+    for(int i =0; i<foods->getFoodPos()->getSize();i++)
     {
-       std::cout<<"index: "<<i<<" x: "<<snake->getPlayerPos()->getElement(i).pos->x<<" y: "<<snake->getPlayerPos()->getElement(i).pos->y<<"\n";
+       //std::cout<<"index: "<<i<<" x: "<<foods->getFoodPos()->getElement(i).pos->x<<" y: "<<foods->getFoodPos()->getElement(i).pos->y<<"\n";
     }
     char board[mech->getBoardSizeY()][mech->getBoardSizeX()];
     for(int i =0; i< mech->getBoardSizeY();i++)
@@ -90,12 +92,14 @@ void DrawScreen(void)
             }
         }
     }
-    int size=snake->getPlayerPos()->getSize();
-    for(int i =0; i<size;i++)
+    for(int i =0; i<snake->getPlayerPos()->getSize();i++)
     {
         board[snake->getPlayerPos()->getElement(i).pos->y][snake->getPlayerPos()->getElement(i).pos->x]=snake->getPlayerPos()->getElement(i).symbol;
     }
-    board[apple->getFoodPos().pos->y][apple->getFoodPos().pos->x] = apple->getFoodPos().getSymbol();
+    for(int i =0; i<foods->getFoodPos()->getSize();i++)
+    {
+        board[foods->getFoodPos()->getElement(i).pos->y][foods->getFoodPos()->getElement(i).pos->x]=foods->getFoodPos()->getElement(i).symbol;
+    }
 
     /*printf("%d %d %d\n",snake->getPlayerPos().pos->x,snake->getPlayerPos().pos->y,snake->getdir() );
     for(int i =0; i< mech->getBoardSizeY();i++)
@@ -146,11 +150,12 @@ void CleanUp(void)
     cout<<"\ngame ended"; 
     if (mech->getLoseFlagStatus())
     {
-        cout<<"\nYou Lost!"; 
+        cout<<"\nYou Lost! You collided with yourself!"; 
     }
     MacUILib_uninit();
     delete mech;
     snake->~Player();
     delete snake;
-    delete apple;
+    foods->~Food();
+    delete foods;
 }

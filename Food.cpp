@@ -2,15 +2,20 @@
 #include "MacUILib.h"
 #include "Food.h"
 
-Food::Food()
+Food::Food(GameMechs* gamemechref)
 {
-    foodPos.pos->x=0;
-    foodPos.pos->y=0;
-    foodPos.symbol='X';
+    foodBucket = new objPosArrayList();
+    foodBucket->insertHead(objPos(0,0,'1'));
+    foodBucket->insertHead(objPos(0,0,'2'));
+    foodBucket->insertHead(objPos(0,0,'3'));
+    foodBucket->insertHead(objPos(0,0,'4'));
+    foodBucket->insertHead(objPos(0,0,'5'));
+    gamemechptr=gamemechref;
 }
 Food::~Food()
 {
-    foodPos.~objPos();
+    foodBucket->~objPosArrayList();
+    delete foodBucket;
 }
 void Food::generateFood(objPosArrayList* blockOff)
 {
@@ -18,30 +23,32 @@ void Food::generateFood(objPosArrayList* blockOff)
     bool overlap = false; 
     int tempx;
     int tempy;
-    do{
-        overlap=0;
-        tempx=1+rand()%28;
-        tempy=1+rand()%13;
-        //the modulo parameter is hard coded as we have no way of refrencing the game mechanics with the UML described Food class as it
-        //an improvement would be including a game mechanics refrence pointer within the Food class like in the Player class
-        foodPos.setObjPos(tempx,tempy,foodPos.symbol);
-        for (int i = 0 ; i < blockOff->getSize() ; i++)
+    objPos tempfood;
+    for (int x =0;x<foodBucket->getSize();x++)
+    {
+        do
         {
-            temp=blockOff->getElement(i);
-            if (foodPos.isPosEqual(&(temp)))
+            overlap=0;
+            tempx=1+rand()%(gamemechptr->getBoardSizeX()-2);
+            tempy=1+rand()%(gamemechptr->getBoardSizeY()-2);
+            //the modulo parameter is hard coded as we have no way of refrencing the game mechanics with the UML described Food class as it
+            //an improvement would be including a game mechanics refrence pointer within the Food class like in the Player class
+            tempfood.setObjPos(tempx,tempy,49+x);
+            for (int i = 0 ; i < blockOff->getSize() ; i++)
             {
-                overlap=true;
+                temp=blockOff->getElement(i);
+                if (tempfood.isPosEqual(&(temp)))
+                {
+                    overlap=true;
+                }
             }
-        }
+        }while(overlap);
+        foodBucket->insertTail(tempfood);
+        foodBucket->removeHead();
+
     }
-    while(overlap);
 }
-objPos const Food::getFoodPos()
+objPosArrayList* const Food::getFoodPos()
 {
-    objPos returnPos;
-    returnPos.pos->x = foodPos.pos->x;
-    returnPos.pos->y = foodPos.pos->y;
-    returnPos.symbol = foodPos.symbol;
-    
-    return returnPos;
+    return foodBucket;
 }
